@@ -1,787 +1,367 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>El Primer Viaje de Juan Agustín ✨ 1 Año</title>
-  
-  <!-- Fonts: Google Fonts (Cinzel / Playfair / Quicksand / Caveat) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cinzel:wght@500;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS CDN para utilidad de layout -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Agustín | Mi primer añito</title>
+    <link rel="stylesheet" href="./css/style.css">
 
-  <!-- ==========================================
-       CSS / ESTILOS (css/styles.css)
-       ========================================== -->
-  <style>
-    /* VARIABLES DE COLOR */
-    :root {
-      --azul-noche: #122266;
-      --azul-profundo: #182E70;
-      --celeste-pastel: #A9C9E8;
-      --crema: #FFF2D5;
-      --dorado-suave: #F5D58A;
-      --blanco-calido: #FFFDF5;
-    }
+    <!-- Etiquetas Open Graph para la previsualización en WhatsApp y Redes Sociales -->
+    <meta property="og:title" content="El Primer Añito de Juan Agustín ✨" />
+    <meta property="og:description"
+        content="Había una vez un principito que cumplía 1 año. ¡Te invitamos a celebrar este momento mágico con nosotros! 🌹🦊" />
+    <meta property="og:image" content="https://nicolastomatis.github.io/invitacion/assets/fondo-link.png" />
+    <meta property="og:url" content="https://nicolastomatis.github.io/invitacion/" />
+    <meta property="og:type" content="website" />
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body, html {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      font-family: 'Quicksand', sans-serif;
-      background: radial-gradient(ellipse at bottom, #182E70 0%, #122266 70%, #0a133b 100%);
-      color: var(--crema);
-    }
-
-    /* CANVAS DE FONDO PARA ESTRELLAS Y PARTÍCULAS */
-    #space-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* NUBES FLOTANTES EN EL FONDO */
-    .clouds-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .cloud-item {
-      position: absolute;
-      opacity: 0.25;
-      filter: blur(1px) brightness(1.1);
-      animation: floatCloud linear infinite;
-    }
-
-    @keyframes floatCloud {
-      from { transform: translateX(-200px); }
-      to { transform: translateX(100vw); }
-    }
-
-    /* CONTENEDOR PRINCIPAL Y ESCENAS */
-    #story-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
-    }
-
-    .scene {
-      width: 100vw;
-      height: 100vh;
-      flex-shrink: 0;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: 2.5rem 1.5rem 3.5rem 1.5rem;
-      text-align: center;
-      opacity: 0;
-      transform: scale(0.95);
-      transition: opacity 1s ease, transform 1s ease;
-      overflow-y: auto;
-    }
-
-    .scene.active {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    /* TIPOGRAFÍAS DE CUENTO */
-    .font-story-title {
-      font-family: 'Cinzel', serif;
-      letter-spacing: 2px;
-    }
-
-    .font-handwriting {
-      font-family: 'Caveat', cursive;
-    }
-
-    /* PÁRRAFOS Y TEXTOS NARRATIVOS */
-    .story-text {
-      color: var(--crema);
-      font-size: 1.15rem;
-      line-height: 1.7;
-      max-width: 540px;
-      margin: 0 auto;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-      opacity: 0;
-      transform: translateY(15px);
-      transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
-    }
-
-    .scene.active .story-text {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* BOTONES ESTILO MAGIA DE ACUARELA */
-    .btn-magic {
-      background: linear-gradient(135deg, rgba(245, 213, 138, 0.95), rgba(255, 242, 213, 0.95));
-      color: var(--azul-noche);
-      font-family: 'Cinzel', serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 0.9rem 2.2rem;
-      border-radius: 9999px;
-      box-shadow: 0 0 20px rgba(245, 213, 138, 0.4), 0 4px 12px rgba(0,0,0,0.3);
-      border: 1.5px solid rgba(255, 255, 255, 0.8);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      z-index: 20;
-    }
-
-    .btn-magic:hover, .btn-magic:active {
-      transform: translateY(-2px) scale(1.04);
-      box-shadow: 0 0 30px rgba(245, 213, 138, 0.7), 0 6px 18px rgba(0,0,0,0.4);
-      background: linear-gradient(135deg, #FFFDF5, #F5D58A);
-    }
-
-    /* ELEMENTOS GRÁFICOS INTERACTIVOS EN ESCENAS */
-    
-    /* Escena 1: Planeta con Principito */
-    .planet-wrapper {
-      position: relative;
-      width: 260px;
-      height: 260px;
-      max-width: 65vw;
-      max-height: 65vw;
-      margin: 1rem auto;
-      animation: floatSlow 5s ease-in-out infinite alternate;
-    }
-
-    .planet-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 0 25px rgba(169, 201, 232, 0.3));
-    }
-
-    /* Escena 2: Estrella de Deseos */
-    .wish-star-container {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      margin: 1.5rem auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .wish-star-img {
-      width: 140px;
-      height: 140px;
-      animation: pulseStar 3s ease-in-out infinite;
-      filter: drop-shadow(0 0 30px rgba(245, 213, 138, 0.8));
-      transition: transform 0.5s ease;
-    }
-
-    .wish-star-container:hover .wish-star-img {
-      transform: scale(1.15) rotate(10deg);
-    }
-
-    /* Escena 3: Avión / Vuelo del Principito y Constelación */
-    .flight-container {
-      position: relative;
-      width: 100%;
-      max-width: 500px;
-      height: 280px;
-      margin: 0 auto;
-    }
-
-    .flying-principito {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 110px;
-      animation: flyAround 8s ease-in-out infinite alternate;
-      z-index: 5;
-    }
-
-    .flying-plane {
-      position: absolute;
-      top: 30px;
-      right: 20px;
-      width: 90px;
-      animation: flyPlane 6s ease-in-out infinite alternate;
-      z-index: 4;
-    }
-
-    #constellation-svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 0 10px rgba(245, 213, 138, 0.7));
-    }
-
-    .constellation-line {
-      stroke: var(--dorado-suave);
-      stroke-width: 2.5;
-      stroke-dasharray: 200;
-      stroke-dashoffset: 200;
-      transition: stroke-dashoffset 2s ease-in-out;
-    }
-
-    .constellation-star {
-      fill: var(--crema);
-      transition: transform 0.4s ease, fill 0.4s ease;
-      cursor: pointer;
-    }
-
-    .constellation-star:hover {
-      fill: #ffffff;
-      transform: scale(1.4);
-    }
-
-    /* Escena 4: Tarjeta de Invitación Elegante */
-    .card-invitation {
-      background: rgba(24, 46, 112, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 2px solid rgba(245, 213, 138, 0.6);
-      border-radius: 24px;
-      padding: 2.2rem 1.8rem;
-      max-width: 440px;
-      width: 100%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(245, 213, 138, 0.15);
-      position: relative;
-      margin: auto;
-    }
-
-    .card-border-decoration {
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      border: 2px solid var(--dorado-suave);
-    }
-    .cbd-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
-    .cbd-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
-    .cbd-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
-    .cbd-br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
-
-    /* INDICADOR DE NAVEGACIÓN (PUNTOS Y CONTROLES) */
-    .nav-dots {
-      position: fixed;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255, 242, 213, 0.3);
-      border: 1px solid var(--dorado-suave);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .dot.active {
-      background: var(--dorado-suave);
-      transform: scale(1.35);
-      box-shadow: 0 0 10px var(--dorado-suave);
-    }
-
-    .nav-arrow {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 50;
-      background: rgba(24, 46, 112, 0.6);
-      border: 1px solid var(--dorado-suave);
-      color: var(--crema);
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
-      transition: all 0.3s ease;
-      opacity: 0.8;
-    }
-
-    .nav-arrow:hover {
-      opacity: 1;
-      background: var(--azul-profundo);
-      transform: translateX(-50%) scale(1.1);
-    }
-
-    #btn-prev-scene { top: 15px; display: none; }
-    #btn-next-scene { bottom: 15px; }
-
-    /* ANIMACIONES KEYFRAMES */
-    @keyframes floatSlow {
-      0% { transform: translateY(0px) rotate(0deg); }
-      100% { transform: translateY(-12px) rotate(2deg); }
-    }
-
-    @keyframes pulseStar {
-      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(245, 213, 138, 0.7)); }
-      50% { transform: scale(1.12); filter: drop-shadow(0 0 40px rgba(245, 213, 138, 1)); }
-    }
-
-    @keyframes flyAround {
-      0% { transform: translate(0, 0) rotate(-3deg); }
-      50% { transform: translate(25px, -15px) rotate(4deg); }
-      100% { transform: translate(-10px, 10px) rotate(-2deg); }
-    }
-
-    @keyframes flyPlane {
-      0% { transform: translate(0, 0) rotate(2deg); }
-      50% { transform: translate(-30px, 15px) rotate(-5deg); }
-      100% { transform: translate(15px, -10px) rotate(3deg); }
-    }
-
-    /* AJUSTES RESPONSIVE PARA DISPOSITIVOS MÓVILES */
-    @media (max-width: 640px) {
-      .nav-dots {
-        right: 10px;
-      }
-      .story-text {
-        font-size: 1.05rem;
-        line-height: 1.6;
-      }
-      .card-invitation {
-        padding: 1.5rem 1.2rem;
-      }
-      .btn-magic {
-        padding: 0.8rem 1.8rem;
-        font-size: 0.88rem;
-      }
-    }
-
-    /* SOPORTE PARA REDUCED MOTION */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
 </head>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    night: {
+                        950: '#060a17',
+                        900: '#0a1128',
+                        800: '#1c2541',
+                        700: '#2b3860'
+                    },
+                    star: {
+                        light: '#fff3b0',
+                        gold: '#f4d06f',
+                        amber: '#ffb703',
+                        deep: '#d48c00'
+                    },
+                    bone: '#f8f9fa'
+                },
+                fontFamily: {
+                    serif: ['"Cormorant Garamond"', 'serif'],
+                    sans: ['"Quicksand"', 'sans-serif']
+                }
+            }
+        }
+    }
+</script>
+
 <body>
 
-  <!-- CANVAS ANIMADO DE FONDO (ESTRELLAS Y PARTÍCULAS) -->
-  <canvas id="space-canvas"></canvas>
+    <!-- CONTENEDOR PRINCIPAL MOBILE-ONLY (9:16, max-width 430px, 100dvh) -->
+    <main id="phone-frame"
+        class="relative w-full max-w-[430px] h-[100dvh] mx-auto overflow-hidden bg-gradient-to-b from-night-950 via-night-900 to-night-800 select-none">
 
-  <!-- CAPA DE NUBES DE ACUARELA FLOTANTES -->
-  <div class="clouds-layer">
-    <img src="assets/nube.png" class="cloud-item" style="top: 10%; width: 220px; animation-duration: 35s;" alt="Nube acuarela">
-    <img src="assets/nube.png" class="cloud-item" style="top: 45%; width: 300px; animation-duration: 48s; animation-delay: -15s;" alt="Nube acuarela">
-    <img src="assets/nube.png" class="cloud-item" style="top: 75%; width: 180px; animation-duration: 28s; animation-delay: -5s;" alt="Nube acuarela">
-  </div>
+        <!-- FONDO INTERACTIVO DE CIELO ESTRELLADO (CANVAS) -->
+        <canvas id="starry-sky" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
-  <!-- NAVEGACIÓN LATERAL (PUNTOS INDICADORES) -->
-  <div class="nav-dots" id="nav-dots" aria-label="Indicador de progreso del cuento">
-    <div class="dot active" data-scene="0" title="Escena 1"></div>
-    <div class="dot" data-scene="1" title="Escena 2"></div>
-    <div class="dot" data-scene="2" title="Escena 3"></div>
-    <div class="dot" data-scene="3" title="Escena 4"></div>
-  </div>
-
-  <!-- FLECHAS DE NAVEGACIÓN -->
-  <button id="btn-prev-scene" class="nav-arrow" aria-label="Escena anterior">▲</button>
-  <button id="btn-next-scene" class="nav-arrow" aria-label="Siguiente escena">▼</button>
-
-  <!-- CONTENEDOR PRINCIPAL DE ESCENAS NARRATIVAS -->
-  <div id="story-container">
-
-    <!-- ESCENA 1: UN VIAJE MUY ESPECIAL -->
-    <section class="scene active" id="scene-1">
-      <div class="w-full pt-4">
-        <h2 class="font-handwriting text-3xl md:text-4xl text-amber-200 opacity-90">Capítulo I</h2>
-        <h1 class="font-story-title text-xl md:text-2xl text-slate-100 mt-1">Un viaje muy especial</h1>
-      </div>
-
-      <div class="planet-wrapper">
-        <!-- Planeta con el Principito sentado (assets/principito-luna.png) -->
-        <img src="assets/principito-luna.png" class="planet-img" alt="El Principito en su pequeño planeta">
-      </div>
-
-      <div class="w-full max-w-lg mb-4">
-        <p class="story-text">
-          Había una vez, en un pequeño planeta perdido entre millones de estrellas, un pequeño principito que estaba a punto de vivir una aventura maravillosa.
-        </p>
-        <div class="mt-6">
-          <button class="btn-magic" onclick="nextScene()">
-            Comenzar el viaje ✨
-          </button>
+        <!-- Nebulosa decorativa sutil -->
+        <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-star-gold/10 blur-3xl pointer-events-none z-0">
         </div>
-      </div>
-    </section>
-
-    <!-- ESCENA 2: LA ESTRELLA DE LOS DESEOS -->
-    <section class="scene" id="scene-2">
-      <div class="w-full pt-4">
-        <h2 class="font-handwriting text-3xl md:text-4xl text-amber-200 opacity-90">Capítulo II</h2>
-        <h1 class="font-story-title text-xl md:text-2xl text-slate-100 mt-1">La estrella de los deseos</h1>
-      </div>
-
-      <div class="wish-star-container" id="interactive-star" onclick="triggerStarSparkle()">
-        <!-- Estrella de acuarela (assets/estrella.png) -->
-        <img src="assets/estrella.png" class="wish-star-img" alt="Estrella brillante de los deseos">
-      </div>
-
-      <div class="w-full max-w-lg mb-4">
-        <div id="text-sequence-scene2" class="min-h-[120px] flex items-center justify-center">
-          <p class="story-text" id="scene2-p1">
-            Una noche, mientras contemplaba el cielo, descubrió una estrella que brillaba más que todas las demás...
-          </p>
+        <div
+            class="absolute top-1/3 -right-24 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none z-0">
         </div>
-        <div class="mt-4">
-          <button class="btn-magic" onclick="nextScene()">
-            Continuar el viaje ✨
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ESCENA 3: UNA CELEBRACIÓN ENTRE ESTRELLAS -->
-    <section class="scene" id="scene-3">
-      <div class="w-full pt-4">
-        <h2 class="font-handwriting text-3xl md:text-4xl text-amber-200 opacity-90">Capítulo III</h2>
-        <h1 class="font-story-title text-xl md:text-2xl text-slate-100 mt-1">Una celebración entre estrellas</h1>
-      </div>
-
-      <div class="flight-container">
-        <!-- Principito volando con pájaros (assets/principito.png) -->
-        <img src="assets/principito.png" class="flying-principito" alt="Principito volando con pájaros">
-        <!-- Avión rojo de aventura (assets/avions.png) -->
-        <img src="assets/avions.png" class="flying-plane" alt="Avión de juguete del principito">
-        
-        <!-- SVG interactivo para dibujo de constelación del N° 1 -->
-        <svg id="constellation-svg" viewBox="0 0 300 240">
-          <!-- Líneas de la constelación 1 -->
-          <line id="line1" class="constellation-line" x1="120" y1="110" x2="150" y2="70" />
-          <line id="line2" class="constellation-line" x1="150" y1="70" x2="150" y2="190" />
-          <line id="line3" class="constellation-line" x1="120" y1="190" x2="180" y2="190" />
-          
-          <!-- Estrellas de la constelación -->
-          <circle class="constellation-star" cx="120" cy="110" r="7" />
-          <circle class="constellation-star" cx="150" cy="70" r="9" />
-          <circle class="constellation-star" cx="150" cy="190" r="8" />
-          <circle class="constellation-star" cx="120" cy="190" r="6" />
-          <circle class="constellation-star" cx="180" cy="190" r="6" />
-        </svg>
-      </div>
-
-      <div class="w-full max-w-lg mb-4">
-        <p class="story-text">
-          Entonces, el principito decidió viajar por el universo para reunir a todas las personas especiales. Después de recorrer planetas, cruzar nubes y visitar constelaciones... encontró el lugar perfecto para celebrar.
-        </p>
-        <div class="mt-6">
-          <button class="btn-magic" onclick="nextScene()">
-            Descubrir la invitación ✨
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ESCENA 4: LA INVITACIÓN -->
-    <section class="scene" id="scene-4">
-      <div class="w-full pt-2">
-        <h2 class="font-handwriting text-3xl text-amber-200">¡Estás invitado!</h2>
-      </div>
-
-      <!-- Tarjeta elegante de invitación -->
-      <div class="card-invitation">
-        <div class="card-border-decoration cbd-tl"></div>
-        <div class="card-border-decoration cbd-tr"></div>
-        <div class="card-border-decoration cbd-bl"></div>
-        <div class="card-border-decoration cbd-br"></div>
-
-        <p class="font-handwriting text-2xl text-amber-100 mb-2">
-          Y ahora, una estrella quiere invitarte a formar parte de esta aventura...
-        </p>
-
-        <h1 class="font-story-title text-3xl md:text-4xl text-amber-300 font-bold tracking-wider my-2">
-          JUAN AGUSTÍN
-        </h1>
-
-        <p class="font-story-title text-sm md:text-base text-slate-200 tracking-widest my-1 border-y border-amber-200/30 py-2">
-          ¡CUMPLE SU PRIMER AÑITO!
-        </p>
-
-        <div class="my-4 text-slate-100">
-          <p class="text-lg font-semibold text-amber-200">28 DE NOVIEMBRE DE 2026</p>
-          <p class="text-md opacity-90 mt-1">📍 J.J. Almeyra</p>
+        <div
+            class="absolute -bottom-24 left-1/4 w-72 h-72 rounded-full bg-star-amber/10 blur-3xl pointer-events-none z-0">
         </div>
 
-        <p class="font-handwriting text-xl text-amber-100 italic my-3">
-          "¡Te esperamos para compartir una aventura mágica!<br>
-          Porque las estrellas brillan más cuando estamos juntos."
-        </p>
+        <!-- BARRA SUPERIOR: Indicador de Capítulos + Botón de Melodía Mágica -->
+        <header class="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-5 pt-4 pb-2">
+            <!-- Puntos de progreso de las 4 escenas -->
+            <div class="flex items-center gap-2" aria-label="Progreso del cuento">
+                <button onclick="goToScene(0)"
+                    class="step-dot w-6 h-1.5 rounded-full bg-star-gold transition-all duration-500 shadow-[0_0_8px_#f4d06f]"
+                    aria-label="Capítulo 1"></button>
+                <button onclick="goToScene(1)"
+                    class="step-dot w-2 h-1.5 rounded-full bg-bone/30 transition-all duration-500"
+                    aria-label="Capítulo 2"></button>
+                <button onclick="goToScene(2)"
+                    class="step-dot w-2 h-1.5 rounded-full bg-bone/30 transition-all duration-500"
+                    aria-label="Capítulo 3"></button>
+                <button onclick="goToScene(3)"
+                    class="step-dot w-2 h-1.5 rounded-full bg-bone/30 transition-all duration-500"
+                    aria-label="Invitación"></button>
+            </div>
 
-        <div class="mt-5">
-          <a href="https://api.whatsapp.com/send?text=%C2%A1Hola!%20Confirmo%20mi%20asistencia%20al%20cumplea%C3%B1os%20de%20Juan%20Agust%C3%ADn%20%E2%9C%A8" 
-             target="_blank" 
-             rel="noopener noreferrer" 
-             class="btn-magic text-sm py-3 px-6 w-full justify-center">
-            Confirmar asistencia por WhatsApp 📱
-          </a>
-        </div>
-      </div>
+            <!-- Botón de cajita musical / efectos estelares (Web Audio API sin archivos externos) -->
+            <button id="audio-toggle" onclick="toggleMusic()"
+                class="flex items-center gap-1.5 px-3 py-1 rounded-full glass-card text-xs text-star-gold hover:bg-night-700/60 active:scale-95 transition">
+                <span id="audio-icon">🎵</span>
+                <span id="audio-label" class="font-medium tracking-wide">Melodía</span>
+            </button>
+        </header>
 
-      <div class="pb-2 pt-2">
-        <p class="text-xs text-amber-200/70 font-handwriting text-base">✨ Un año de luz y dulzura ✨</p>
-      </div>
-    </section>
+        <!-- ==========================================
+             ESCENA 1: CAPÍTULO I
+             ========================================== -->
+        <section id="scene-0" class="scene active" aria-labelledby="title-1">
+            <!-- Ornamento superior -->
+            <div class="text-center mt-2">
+                <span
+                    class="inline-block text-[11px] uppercase tracking-[0.35em] text-star-gold/90 font-semibold px-3 py-1 rounded-full border border-star-gold/30 bg-night-900/50">
+                    ✦ Capítulo I ✦
+                </span>
+            </div>
 
-  </div>
+            <!-- Espacio para Imagen 1: Ilustración del Principito en el asteroide B-612 -->
+            <!-- NOTA: Si deseas usar una imagen propia, reemplaza el <svg> por <img src="TU_URL.png" class="w-full h-full object-cover rounded-full" alt="El Principito"> -->
+            <div class="illustration-frame illustration-size w-80 h-80 flex items-center justify-center p-3 animate-float"
+                style="margin-top: 100px;">
+                <img src="assets/principito.png" class="w-full h-full object-cover rounded-full"
+                    alt="El Principito recorriendo planetas, nubes y constelaciones" />
+            </div>
 
-  <!-- ==========================================
-       JAVASCRIPT / LÓGICA (js/main.js)
-       ========================================== -->
-  <script>
-    // ESTADO DE LA APLICACIÓN
-    let currentScene = 0;
-    const totalScenes = 4;
-    const storyContainer = document.getElementById('story-container');
-    const scenes = document.querySelectorAll('.scene');
-    const dots = document.querySelectorAll('.dot');
-    const btnPrev = document.getElementById('btn-prev-scene');
-    const btnNext = document.getElementById('btn-next-scene');
+            <!-- Contenido de texto del Capítulo I -->
+            <div class="text-center max-w-[340px] space-y-3 my-auto">
+                <h1 id="title-1"
+                    class="story-title font-serif text-3xl sm:text-4xl font-bold gold-gradient-text tracking-wide">
+                    Un viaje muy especial
+                </h1>
+                <div class="w-16 h-[1px] bg-gradient-to-r from-transparent via-star-gold to-transparent mx-auto"></div>
+                <p class="story-text text-bone/90 text-base leading-relaxed font-normal px-1">
+                    Había una vez, en un diminuto planeta perdido entre millones de estrellas, un principito que estaba
+                    a punto de vivir una aventura inolvidable.
+                </p>
+            </div>
 
-    // 1. NAVEGACIÓN ENTRE ESCENAS
-    function updateScenePosition() {
-      // Mover contenedor verticalmente
-      storyContainer.style.transform = `translateY(-${currentScene * 100}vh)`;
+            <!-- Botón de avance a Escena 2 -->
+            <div class="w-full pt-2">
+                <button onclick="goToScene(1)"
+                    class="btn-magic w-full py-3.5 px-6 rounded-full text-base tracking-wide flex items-center justify-center gap-2">
+                    <span>Comenzar el viaje ✨</span>
+                </button>
+            </div>
+        </section>
 
-      // Actualizar clases activas de escenas
-      scenes.forEach((scene, index) => {
-        if (index === currentScene) {
-          scene.classList.add('active');
-        } else {
-          scene.classList.remove('active');
-        }
-      });
+        <!-- ==========================================
+             ESCENA 2: CAPÍTULO II
+             ========================================== -->
+        <section id="scene-1" class="scene" aria-labelledby="title-2">
+            <!-- Subtítulo pequeño dorado -->
+            <div class="text-center mt-2">
+                <span
+                    class="inline-block text-[11px] uppercase tracking-[0.35em] text-star-gold/90 font-semibold px-3 py-1 rounded-full border border-star-gold/30 bg-night-900/50">
+                    ✦ Capítulo II ✦
+                </span>
+            </div>
 
-      // Actualizar indicadores (puntos)
-      dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentScene);
-      });
+            <!-- Espacio para Imagen 2: La Estrella de los Deseos -->
+            <div class="illustration-frame illustration-size w-80 h-80 flex items-center justify-center p-3 animate-float"
+                style="margin-top: 100px;">
+                <img src="assets/principito2.png" class="w-full h-full object-cover rounded-full"
+                    alt="El Principito recorriendo planetas, nubes y constelaciones" />
+            </div>
 
-      // Mostrar/ocultar botones de flecha
-      btnPrev.style.display = currentScene > 0 ? 'flex' : 'none';
-      btnNext.style.display = currentScene < totalScenes - 1 ? 'flex' : 'none';
+            <!-- Contenido de texto y cita del Capítulo II -->
+            <div class="text-center max-w-[350px] space-y-2.5 my-auto">
+                <h2 id="title-2" class="story-title font-serif text-3xl sm:text-4xl font-bold gold-gradient-text">
+                    La estrella de los deseos
+                </h2>
+                <p class="story-text text-bone/90 text-sm sm:text-[15px] leading-relaxed">
+                    Una noche, mientras contemplaba el cielo, descubrió una estrella que brillaba más que todas las
+                    demás. Sintió curiosidad, y también unas ganas enormes de pedirle un deseo. Entonces comprendió
+                    algo:
+                </p>
+                <!-- Cita destacada en cursiva y color dorado -->
+                <blockquote class="glass-card rounded-2xl p-3 sm:p-3.5 border border-star-gold/40 shadow-inner">
+                    <p class="font-serif italic text-star-gold text-base sm:text-lg leading-snug font-semibold">
+                        ✨ “Hay momentos que se vuelven mágicos cuando los compartimos con quienes más queremos.” ✨
+                    </p>
+                </blockquote>
+            </div>
 
-      // Disparar animaciones específicas por escena
-      if (currentScene === 2) {
-        animateConstellation();
-      }
-    }
+            <!-- Botón de avance a Escena 3 -->
+            <div class="w-full pt-2">
+                <button onclick="goToScene(2)"
+                    class="btn-magic w-full py-3.5 px-6 rounded-full text-base tracking-wide flex items-center justify-center gap-2">
+                    <span>Continuar el viaje ✨</span>
+                </button>
+            </div>
+        </section>
 
-    function goToScene(index) {
-      if (index >= 0 && index < totalScenes) {
-        currentScene = index;
-        updateScenePosition();
-      }
-    }
+        <!-- ==========================================
+             ESCENA 3: CAPÍTULO III
+             ========================================== -->
+        <section id="scene-2" class="scene" aria-labelledby="title-3">
+            <!-- Subtítulo pequeño dorado -->
+            <div class="text-center mt-2">
+                <span
+                    class="inline-block text-[11px] uppercase tracking-[0.35em] text-star-gold/90 font-semibold px-3 py-1 rounded-full border border-star-gold/30 bg-night-900/50">
+                    ✦ Capítulo III ✦
+                </span>
+            </div>
 
-    function nextScene() {
-      if (currentScene < totalScenes - 1) {
-        currentScene++;
-        updateScenePosition();
-      }
-    }
+            <!-- Espacio para Imagen 3: Recorriendo planetas, nubes y constelaciones -->
+            <div class="illustration-frame illustration-size w-80 h-80 flex items-center justify-center p-3 animate-float"
+                style="margin-top: 100px;">
+                <img src="assets/avion.png" class="w-full h-full object-cover rounded-full"
+                    alt="El Principito recorriendo planetas, nubes y constelaciones" />
+            </div>
 
-    function prevScene() {
-      if (currentScene > 0) {
-        currentScene--;
-        updateScenePosition();
-      }
-    }
+            <!-- Contenido de texto del Capítulo III -->
+            <div class="text-center max-w-[345px] space-y-3 my-auto">
+                <h2 id="title-3" class="story-title font-serif text-3xl sm:text-4xl font-bold gold-gradient-text">
+                    Una celebración entre estrellas
+                </h2>
+                <div class="w-16 h-[1px] bg-gradient-to-r from-transparent via-star-gold to-transparent mx-auto"></div>
+                <p class="story-text text-bone/90 text-base leading-relaxed px-1">
+                    Así fue como el principito decidió recorrer el universo para reunir a todas las personas especiales.
+                    Visitó planetas, atravesó nubes y cruzó constelaciones, hasta que por fin encontró el lugar perfecto
+                    para celebrar.
+                </p>
+            </div>
 
-    // Event Listeners para navegación
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const sceneIdx = parseInt(dot.getAttribute('data-scene'));
-        goToScene(sceneIdx);
-      });
-    });
+            <!-- Botón de avance a la Invitación Final -->
+            <div class="w-full pt-2">
+                <button onclick="goToScene(3)"
+                    class="btn-magic w-full py-3.5 px-6 rounded-full text-base tracking-wide flex items-center justify-center gap-2">
+                    <span>Descubrir el lugar ✨</span>
+                </button>
+            </div>
+        </section>
 
-    btnNext.addEventListener('click', nextScene);
-    btnPrev.addEventListener('click', prevScene);
+        <!-- ==========================================
+             ESCENA 4: LA INVITACIÓN FINAL
+             ========================================== -->
+        <section id="scene-3" class="scene justify-between" aria-labelledby="title-4">
 
-    // Permitir teclado (flechas arriba/abajo)
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown' || e.key === 'PageDown') nextScene();
-      if (e.key === 'ArrowUp' || e.key === 'PageUp') prevScene();
-    });
+            <!-- Encabezado con Ilustración 4 (Corona Real y el Zorro amigo) + Nombre -->
+            <div class="flex flex-col items-center text-center w-full mt-1">
+                <div
+                    class="illustration-frame illustration-size-sm w-60 h-60 flex items-center justify-center p-2 animate-float mb-1.5">
+                    <img src="assets/principito3.png" class="w-full h-full object-cover rounded-full"
+                        alt="El Principito recorriendo planetas, nubes y constelaciones" />
 
-    // 2. CANVAS DE ESTRELLAS Y PARTÍCULAS LUMINOSAS
-    const canvas = document.getElementById('space-canvas');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    let shootingStars = [];
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initStars();
-    }
+                </div>
 
-    function initStars() {
-      stars = [];
-      const count = Math.floor((canvas.width * canvas.height) / 3000);
-      for (let i = 0; i < count; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          radius: Math.random() * 1.8 + 0.5,
-          alpha: Math.random(),
-          speed: Math.random() * 0.02 + 0.005,
-          color: Math.random() > 0.3 ? '#FFFDF5' : '#F5D58A'
-        });
-      }
-    }
+                <p class="text-xs sm:text-sm uppercase tracking-[0.22em] text-star-gold/90 font-semibold">
+                    ¡Te espero para festejar<br> mi primer añito!
+                </p>
+                <h2 id="title-4"
+                    class="font-serif text-4xl sm:text-5xl font-bold gold-gradient-text tracking-wide leading-tight mt-0.5">
+                    Juan Agustín
+                </h2>
+            </div>
 
-    function createShootingStar() {
-      if (Math.random() < 0.03 && shootingStars.length < 3) {
-        shootingStars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * (canvas.height / 2),
-          length: Math.random() * 80 + 40,
-          speed: Math.random() * 8 + 4,
-          angle: Math.PI / 4,
-          opacity: 1
-        });
-      }
-    }
+            <!-- Tarjeta de Detalles del Evento (Fecha, Hora, Lugar con íconos SVG elegantes) -->
+            <div class="w-full glass-card rounded-2xl p-3.5 space-y-2.5">
+                <div class="grid grid-cols-2 gap-2 border-b border-star-gold/20 pb-2.5">
+                    <!-- Fecha -->
+                    <div class="flex items-center gap-2.5">
+                        <div
+                            class="w-9 h-9 rounded-xl bg-star-gold/15 border border-star-gold/40 flex items-center justify-center shrink-0 text-star-gold">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-[10px] uppercase tracking-wider text-star-gold/80">Fecha</p>
+                            <p class="text-xs sm:text-sm font-bold text-bone">28 de Noviembre</p>
+                        </div>
+                    </div>
 
-    function drawSpace() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    <!-- Hora -->
+                    <div class="flex items-center gap-2.5">
+                        <div
+                            class="w-9 h-9 rounded-xl bg-star-gold/15 border border-star-gold/40 flex items-center justify-center shrink-0 text-star-gold">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-[10px] uppercase tracking-wider text-star-gold/80">Hora</p>
+                            <p class="text-xs sm:text-sm font-bold text-bone">12:00 hs</p>
+                        </div>
+                    </div>
+                </div>
 
-      // Dibujar estrellas titilantes
-      stars.forEach(star => {
-        star.alpha += star.speed;
-        if (star.alpha > 1 || star.alpha < 0.2) {
-          star.speed = -star.speed;
-        }
+                <!-- Lugar + Botón Cómo llegar integrado -->
+                <div class="flex items-center justify-between gap-2 pt-0.5">
+                    <div class="flex items-center gap-2.5">
+                        <div
+                            class="w-9 h-9 rounded-xl bg-star-gold/15 border border-star-gold/40 flex items-center justify-center shrink-0 text-star-gold">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-[10px] uppercase tracking-wider text-star-gold/80">Lugar</p>
+                            <p class="text-sm font-bold text-bone">J.J. Almeyra</p>
+                        </div>
+                    </div>
 
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = star.color;
-        ctx.globalAlpha = Math.abs(star.alpha);
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = star.color;
-        ctx.fill();
-      });
+                    <!-- Botón Cómo llegar (Google Maps) -->
+                    <a href="https://maps.app.goo.gl/3NXzquhaWkANwwqg6" target="_blank" rel="noopener noreferrer"
+                        class="px-3.5 py-2 rounded-xl bg-night-900/90 hover:bg-night-700 border border-star-gold/50 text-star-gold text-xs font-semibold flex items-center gap-1.5 active:scale-95 transition shrink-0 shadow-sm">
+                        <span>Cómo llegar</span>
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
 
-      // Dibujar estrellas fugaces
-      createShootingStar();
-      for (let i = shootingStars.length - 1; i >= 0; i--) {
-        const s = shootingStars[i];
-        const endX = s.x + Math.cos(s.angle) * s.length;
-        const endY = s.y + Math.sin(s.angle) * s.length;
+            <!-- Cuenta Regresiva en Tiempo Real -->
+            <div class="w-full text-center space-y-1.5">
+                <p class="text-[11px] uppercase tracking-[0.25em] text-star-gold/85 font-medium">
+                    ✦ Cuenta regresiva para despegar ✦
+                </p>
+                <div class="grid grid-cols-4 gap-2 w-full">
+                    <div class="glass-card rounded-xl py-2 px-1 flex flex-col items-center justify-center">
+                        <span id="cd-days"
+                            class="font-serif text-2xl sm:text-3xl font-bold text-star-gold leading-none">00</span>
+                        <span class="text-[10px] uppercase tracking-wider text-bone/75 mt-1">Días</span>
+                    </div>
+                    <div class="glass-card rounded-xl py-2 px-1 flex flex-col items-center justify-center">
+                        <span id="cd-hours"
+                            class="font-serif text-2xl sm:text-3xl font-bold text-star-gold leading-none">00</span>
+                        <span class="text-[10px] uppercase tracking-wider text-bone/75 mt-1">Horas</span>
+                    </div>
+                    <div class="glass-card rounded-xl py-2 px-1 flex flex-col items-center justify-center">
+                        <span id="cd-minutes"
+                            class="font-serif text-2xl sm:text-3xl font-bold text-star-gold leading-none">00</span>
+                        <span class="text-[10px] uppercase tracking-wider text-bone/75 mt-1">Min</span>
+                    </div>
+                    <div class="glass-card rounded-xl py-2 px-1 flex flex-col items-center justify-center">
+                        <span id="cd-seconds"
+                            class="font-serif text-2xl sm:text-3xl font-bold text-star-amber leading-none">00</span>
+                        <span class="text-[10px] uppercase tracking-wider text-bone/75 mt-1">Seg</span>
+                    </div>
+                </div>
+                <p id="cd-status" class="text-xs text-star-gold italic hidden">¡Llegó el gran día de festejar! ✨</p>
+            </div>
 
-        const grad = ctx.createLinearGradient(s.x, s.y, endX, endY);
-        grad.addColorStop(0, 'rgba(255, 242, 213, 0)');
-        grad.addColorStop(1, 'rgba(245, 213, 138, ' + s.opacity + ')');
+            <!-- Botones de Acción Final -->
+            <div class="w-full space-y-2.5 pt-1">
+                <!-- Botón Principal Destacado: Confirmar Asistencia -->
+                <a href="https://wa.me/5492227441916?text=¡Hola!%20Quiero%20confirmar%20mi%20asistencia%20al%20primer%20añito%20de%20Juan%20Agustín.%20✨"
+                    target="_blank" rel="noopener noreferrer"
+                    class="btn-magic w-full py-3.5 px-6 rounded-full text-base tracking-wide flex items-center justify-center gap-2 shadow-lg">
+                    <span>Confirmar Asistencia ✨</span>
+                </a>
 
-        ctx.beginPath();
-        ctx.moveTo(s.x, s.y);
-        ctx.lineTo(endX, endY);
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 2;
-        ctx.stroke();
+                <!-- Botón Discreto: Volver a leer el cuento -->
+                <button onclick="goToScene(0)"
+                    class="w-full py-1.5 text-xs text-bone/70 hover:text-star-gold transition flex items-center justify-center gap-1 font-medium tracking-wide">
+                    <span>Volver a leer el cuento ↺</span>
+                </button>
+            </div>
 
-        s.x += Math.cos(s.angle) * s.speed;
-        s.y += Math.sin(s.angle) * s.speed;
-        s.opacity -= 0.015;
+        </section>
 
-        if (s.opacity <= 0 || s.x > canvas.width || s.y > canvas.height) {
-          shootingStars.splice(i, 1);
-        }
-      }
+    </main>
 
-      ctx.globalAlpha = 1;
-      ctx.shadowBlur = 0;
-      requestAnimationFrame(drawSpace);
-    }
-
-    // 3. ANIMACIÓN DE CONSTELACIÓN (ESCENA 3)
-    let constellationAnimated = false;
-    function animateConstellation() {
-      if (constellationAnimated) return;
-      constellationAnimated = true;
-
-      const lines = [
-        document.getElementById('line1'),
-        document.getElementById('line2'),
-        document.getElementById('line3')
-      ];
-
-      lines.forEach((line, index) => {
-        setTimeout(() => {
-          if (line) line.style.strokeDashoffset = '0';
-        }, index * 600);
-      });
-    }
-
-    // 4. CHISPAS DE MAGIA INTERACTIVA (ESCENA 2)
-    function triggerStarSparkle() {
-      const star = document.getElementById('interactive-star');
-      star.style.transform = 'scale(1.25) rotate(15deg)';
-      setTimeout(() => {
-        star.style.transform = 'scale(1) rotate(0deg)';
-      }, 400);
-
-      // Cambiar texto de la estrella progresivamente si el usuario interactúa
-      const p = document.getElementById('scene2-p1');
-      if (p) {
-        p.style.opacity = '0';
-        setTimeout(() => {
-          p.innerHTML = '✨ "Hay momentos que se vuelven mágicos cuando los compartimos con quienes más queremos." ✨';
-          p.style.opacity = '1';
-        }, 400);
-      }
-    }
-
-    // INICIALIZACIÓN
-    window.addEventListener('resize', resizeCanvas);
-    window.onload = function() {
-      resizeCanvas();
-      drawSpace();
-      updateScenePosition();
-    };
-  </script>
+    <script src="./js/script.js"></script>
 </body>
+
 </html>
